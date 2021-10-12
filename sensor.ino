@@ -34,7 +34,7 @@ int gpio12_pin = 12; // El GPIO5 de la tarjeta ESP32, corresponde al pin D5 iden
 int gpio13_pin = 13; // Se debe tener en cuenta que el GPIO4 es el pin D4, ver imagen de GPIOs de la tarjeta ESP32. Este pin será utilizado para una salida de un LED para alertas.
 int gpio14_pin = 14; // Se debe tener en cuenta que el GPIO2 es el pin D2, ver imagen de GPIOs de la tarjeta  ESP32. Este pin será utilizado para una salida de un LED para alertas.
 
-int ID_TARJ=1; // Este dato identificará cual es la tarjeta que envía los datos, tener en cuenta que se tendrá más de una tarjeta. 
+int ID_TARJ=3; // Este dato identificará cual es la tarjeta que envía los datos, tener en cuenta que se tendrá más de una tarjeta. 
               // Se debe cambiar el dato (a 2,3,4...) cuando se grabe el programa en las demás tarjetas.
 
  
@@ -72,7 +72,7 @@ void loop() {
   // Sensor readings may also be up to 2 seconds 'old' (its a very slow sensor)
   float h = dht.readHumidity();
   // Read temperature as Celsius (the default)
-  float t = dht.readTemperature()- 16 ;
+  float t = dht.readTemperature();
 
   Serial.print("Humedad: ");
   Serial.print(h);
@@ -200,17 +200,20 @@ void loop() {
       line = client.readStringUntil('\r');
       Serial.print(line);
     }
+     
+    //Datos para conexion con Thingspeak
+
+  
       digitalWrite(gpio14_pin, HIGH);
       Serial.print("Dato ENVIADO");
+      unsigned long channelID = 1517335;
+      const char* WriteAPIKey = "V36GQ91QZMPRTYGO";
+
+      //Asignacion de campos de sensor
+      ThingSpeak.setField(1,t);
+      ThingSpeak.setField(2,h);
       delay(2000);
   }
 
-//Datos para conexion con Thingspeak
-unsigned long channelID = 1517335;
-const char* WriteAPIKey = "V36GQ91QZMPRTYGO";
 
-//Asignacion de campos de sensor
-ThingSpeak.setField(1,t);
-ThingSpeak.setField(2,h);
-  
 }
