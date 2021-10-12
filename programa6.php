@@ -1,7 +1,5 @@
 <?php
-include "conexion.php";  // Conexi�n tiene la informaci�n sobre la conexi�n de la base de datos.
-
-// LAs siguientes son l�neas de c�digo HTML simple, para crear una p�gina web
+include "conexion.php";  
 ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 	Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
   <html>
@@ -104,7 +102,7 @@ while($row1 = $result1->fetch_array(MYSQLI_NUM))
          </td>
          <td valign="top" align=center>
            <?php 
-           if ($temp > $temp_max)
+           if ($temp < $temp_max or $temp > $temp_max)
             {
            ?> 
               <img src="img/temp_alerta.jpg" width=80 height=80>           
